@@ -15,41 +15,31 @@
 
 body {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #29213b, #0b0912 70%);
+  background: radial-gradient(circle at top, #30213f, #0c0912 75%);
   color: white;
   font-family: Georgia, serif;
   display: flex;
-  align-items: center;
   justify-content: center;
-  overflow-x: hidden;
-  padding: 20px;
+  padding: 35px 15px;
 }
 
 .stars {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image:
-    radial-gradient(white 1px, transparent 1px),
-    radial-gradient(#b9a5d8 1px, transparent 1px);
-  background-size: 90px 90px, 130px 130px;
-  background-position: 0 0, 40px 50px;
-  opacity: .35;
-  animation: sparkle 5s infinite alternate;
-}
-
-@keyframes sparkle {
-  from { opacity: .15; }
-  to { opacity: .5; }
+  opacity: .3;
+  background-image: radial-gradient(white 1px, transparent 1px);
+  background-size: 45px 45px;
 }
 
 .player {
   position: relative;
   width: 100%;
-  max-width: 390px;
+  max-width: 430px;
+  height: fit-content;
   padding: 30px 22px;
   text-align: center;
-  border: 1px solid #ffffff25;
+  border: 1px solid #ffffff20;
   border-radius: 25px;
   background: #ffffff0b;
   backdrop-filter: blur(15px);
@@ -65,7 +55,7 @@ body {
 
 h1 {
   margin: 15px 0 8px;
-  font-size: 29px;
+  font-size: 30px;
   font-weight: normal;
 }
 
@@ -76,26 +66,21 @@ h1 {
 }
 
 .cover {
-  width: 190px;
-  height: 190px;
+  width: 175px;
+  height: 175px;
   margin: auto;
   border-radius: 20px;
-  background: linear-gradient(135deg, #49395c, #171321);
+  background: linear-gradient(135deg, #59416d, #171321);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 65px;
   box-shadow: 0 10px 35px #0008;
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-  50% { transform: translateY(-8px); }
 }
 
 .song {
-  margin-top: 25px;
-  font-size: 20px;
+  margin-top: 22px;
+  font-size: 21px;
 }
 
 .artist {
@@ -108,15 +93,81 @@ h1 {
   margin-top: 25px;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border: 1px solid #ffffff20;
   border-radius: 13px;
   overflow: hidden;
+  background: #211a2b;
 }
 
 .youtube iframe {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin: 20px 0 28px;
+}
+
+.controls button {
+  background: #453451;
+  color: white;
+  border: 1px solid #ffffff25;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 19px;
+  cursor: pointer;
+}
+
+.controls button:active {
+  background: #75568c;
+}
+
+.playlist-title {
+  text-align: left;
+  color: #cbb5df;
+  font-size: 13px;
+  letter-spacing: 2px;
+  margin-bottom: 13px;
+}
+
+.track {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding: 13px;
+  margin-bottom: 9px;
+  border: 1px solid #ffffff12;
+  border-radius: 12px;
+  background: #ffffff08;
+  color: white;
+  cursor: pointer;
+}
+
+.track.active {
+  background: #75568c55;
+  border-color: #b99bd5;
+}
+
+.track .number {
+  color: #bda5d0;
+  margin-right: 13px;
+  font-size: 13px;
+}
+
+.track .name {
+  font-size: 14px;
+}
+
+.track .artist-name {
+  display: block;
+  color: #a99bb8;
+  font-size: 11px;
+  margin-top: 5px;
 }
 
 .footer {
@@ -139,24 +190,32 @@ h1 {
   <h1>Our Little Music</h1>
 
   <p class="description">
-    Some songs remind me of you.
+    Every song has a little story.
   </p>
 
   <div class="cover">♡</div>
 
-  <div class="song">Your Favorite Song</div>
-  <div class="artist">A melody dedicated to you</div>
+  <div class="song" id="songTitle">Choose a song</div>
+  <div class="artist" id="artistName">A melody dedicated to you</div>
 
- 
-<div class="youtube">
-  <iframe
-    src="https://www.youtube.com/embed/Y9UzdUrPd6Y"
-    title="Our Favorite Song"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen>
-  </iframe>
-</div>
+  <div class="youtube">
+    <iframe
+      id="youtubePlayer"
+      src="https://www.youtube.com/embed/Y9UzdUrPd6Y"
+      title="YouTube Music Player"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="controls">
+    <button onclick="previousSong()">|◀</button>
+    <button onclick="nextSong()">▶|</button>
+  </div>
+
+  <div class="playlist-title">OUR PLAYLIST ♡</div>
+
+  <div id="playlist"></div>
 
   <div class="footer">
     "Every melody has a story,<br>
@@ -164,6 +223,86 @@ h1 {
   </div>
 
 </div>
+
+<script>
+
+// TAMBAHKAN LAGU DI SINI
+
+const songs = [
+  {
+    title: "Soul on fire",
+    artist: "Chris Grey",
+    id: "N2Kk0acTW"
+  },
+
+  {
+    title: "Mind Games",
+    artist: "Chris Grey",
+    id: "LuExxpIrg4U"
+  },
+
+  {
+    title: "Favorite Song 3",
+    artist: "YouTube Music",
+    id: "ISI_ID_VIDEO_KETIGA"
+  }
+
+];
+
+let currentSong = 0;
+
+function loadSong(index) {
+  currentSong = (index + songs.length) % songs.length;
+
+  const song = songs[currentSong];
+
+  document.getElementById("songTitle").textContent = song.title;
+  document.getElementById("artistName").textContent = song.artist;
+
+  document.getElementById("youtubePlayer").src =
+    "https://www.youtube.com/embed/" + song.id;
+
+  renderPlaylist();
+}
+
+function renderPlaylist() {
+  const playlist = document.getElementById("playlist");
+  playlist.innerHTML = "";
+
+  songs.forEach((song, index) => {
+    const button = document.createElement("button");
+
+    button.className =
+      "track" + (index === currentSong ? " active" : "");
+
+    button.innerHTML = `
+      <span class="number">${String(index + 1).padStart(2, "0")}</span>
+      <span>
+        <span class="name"></span>
+        <span class="artist-name"></span>
+      </span>
+    `;
+
+    button.querySelector(".name").textContent = song.title;
+    button.querySelector(".artist-name").textContent = song.artist;
+
+    button.onclick = () => loadSong(index);
+
+    playlist.appendChild(button);
+  });
+}
+
+function nextSong() {
+  loadSong(currentSong + 1);
+}
+
+function previousSong() {
+  loadSong(currentSong - 1);
+}
+
+renderPlaylist();
+
+</script>
 
 </body>
 </html>
