@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little Playlist</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #29213b, #0b0912 70%);
+  color: white;
+  font-family: Georgia, serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(white 1px, transparent 1px),
+    radial-gradient(#b9a5d8 1px, transparent 1px);
+  background-size: 90px 90px, 130px 130px;
+  background-position: 0 0, 40px 50px;
+  opacity: .35;
+  animation: sparkle 5s infinite alternate;
+}
+
+@keyframes sparkle {
+  from { opacity: .15; }
+  to { opacity: .5; }
+}
+
+.player {
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  padding: 30px 22px;
+  text-align: center;
+  border: 1px solid #ffffff25;
+  border-radius: 25px;
+  background: #ffffff0b;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 50px #0008;
+}
+
+.small-title {
+  color: #c5acd9;
+  letter-spacing: 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 15px 0 8px;
+  font-size: 29px;
+  font-weight: normal;
+}
+
+.description {
+  color: #b9afc5;
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.cover {
+  width: 190px;
+  height: 190px;
+  margin: auto;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #49395c, #171321);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 65px;
+  box-shadow: 0 10px 35px #0008;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% { transform: translateY(-8px); }
+}
+
+.song {
+  margin-top: 25px;
+  font-size: 20px;
+}
+
+.artist {
+  margin-top: 7px;
+  color: #b9afc5;
+  font-size: 13px;
+}
+
+.youtube {
+  margin-top: 25px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid #ffffff20;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.youtube iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.footer {
+  margin-top: 25px;
+  color: #a99bb8;
+  font-size: 12px;
+  line-height: 1.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div class="player">
+
+  <div class="small-title">A little playlist for us</div>
+
+  <h1>Our Little Music</h1>
+
+  <p class="description">
+    Some songs remind me of you.
+  </p>
+
+  <div class="cover">♡</div>
+
+  <div class="song">Your Favorite Song</div>
+  <div class="artist">A melody dedicated to you</div>
+
+  <div class="youtube">
+    <iframe
+      src="https://www.youtube.com/embed/VIDEO_ID"
+      title="YouTube Music Player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="footer">
+    "Every melody has a story,<br>
+    and somehow, mine always leads to you."
+  </div>
+
+</div>
+
+</body>
+</html>
